@@ -23,6 +23,11 @@ public class SessionFilter implements ContainerRequestFilter {
         String path = requestContext.getUriInfo().getPath();
         String method = requestContext.getMethod();
 
+        // Allow CORS preflight requests through unconditionally
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            return;
+        }
+
         // Only filter /api/* requests
         if (!path.startsWith("api/") && !path.startsWith("/api/")) {
             return;
